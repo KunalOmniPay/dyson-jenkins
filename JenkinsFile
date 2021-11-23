@@ -17,7 +17,7 @@ pipeline {
         stage('Deploy') {
             steps{
                 dir('/var/www/dyson-vagrant'){
-            sh "echo hellllloooooooo ${site}"
+            sh "./dyson.sh deploy ${ENVIRONMENT} ${site}"
                 }
             }
         }
