@@ -1,10 +1,24 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Hello') {
+    parameters {
+    string( name: 'VagrantBranch', 
+            defaultValue: 'feature/ubuntu20', 
+            description: 'Enter the branch name for dyson-vagrant')
+            
+  }
+   agent any
+   stages {
+        stage('Checkout') {
             steps {
-                sh 'echo Hello World ${site}'
+                dir('/var/www/dyson-vagrant'){
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+ params.VagrantBranch]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bitbucket', url: 'https://KunalAgarwal2@bitbucket.org/cycloness/dyson-vagrant.git']]])
+                }
+            }
+        }
+        stage('Deploy') {
+            steps{
+                dir('/var/www/dyson-vagrant'){
+            sh "echo hellllloooooooo ${site}"
+                }
             }
         }
     }
